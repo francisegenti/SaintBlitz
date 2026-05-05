@@ -220,13 +220,10 @@
       });
     });
 
-    // Parallax Effect on Hero
+    // Keep hero section static
     const heroSection = document.querySelector('.hero-media');
     if (heroSection) {
-      window.addEventListener('scroll', () => {
-        const scrollPosition = window.scrollY;
-        heroSection.style.transform = `translateY(${scrollPosition * 0.3}px)`;
-      });
+      heroSection.style.transform = 'none';
     }
 
     // Add fade-in to sections on page load
