@@ -2,12 +2,12 @@ name: Deploy Static Website to AWS S3
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 permissions:
-  contents: read  
-      
+  contents: read
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,16 +16,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::169024357038:role/GitHubActions-SaintBlitz-Deploy
           aws-region: eu-west-2
 
       - name: Deploy to S3
         run: |
-          aws s3 sync . s3://saintblittz
-           --exclude ".git/*" 
-           --exclude ".github/*" 
-           --delete
+          aws s3 sync . s3://saintblittz \
+            --exclude ".git/**" \
+            --exclude ".github/**" \
+            --delete
