@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saintblitz-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: saintblitz
+  template:
+    metadata:
+      labels:
+        app: saintblitz
+    spec:
+      containers:
+        - name: saintblitz-container
+          image: francisegenti/saintblitz:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

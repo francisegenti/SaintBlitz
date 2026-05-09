@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: saintblitz-ingress
+spec:
+  rules:
+    - host: saintblitz.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: saintblitz-service
+                port:
+                  number: 80
